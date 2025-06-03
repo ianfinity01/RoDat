@@ -1,7 +1,7 @@
 --!strict
 local Package = script.Parent.Parent.Parent
 local Serializer = require(Package.Serializer)
-local smartUInt = require(Package.Numbers.smartUInt)
+local smartUInt = require(Package.TypeModules.Numbers.smartUInt)
 
 local Type = {}
 
@@ -11,16 +11,16 @@ Type.name = "dynamicStr"
 
 Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
     local len, offset = Serializer:Read(smartUInt, buf, offset)
-    return buffer.readstring(buf, offset + 4, len), offset + 4 + len -- TODO: FINISH
+    return buffer.readstring(buf, offset, len), offset + len
 end, function(self, buf: buffer, offset: number, val: string)
     local len = val:len()
-    buffer.writeu32(buf, offset, len)
-    buffer.writestring(buf, offset + 4, val)
-    return offset + 4 + len
+    offset = Serializer:Write(smartUInt, len, buf, offset)
+    buffer.writestring(buf, offset, val, len)
+    return offset + len
 end, function(self, val: string)
-    return 4 + val:len()
+    return Serializer:Length(smartUInt, val:len()) + val:len()
 end, function(self, val: string)
-    return typeof(val) == "string" and val:len() < 4294967296
+    return typeof(val) == "string"
 end)
 
 setmetatable(Type, {
