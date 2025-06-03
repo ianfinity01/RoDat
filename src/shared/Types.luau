@@ -25,7 +25,24 @@ local types = {
     shortStr = require(TypesF.Strings.shortStr),
     mediumStr = require(TypesF.Strings.mediumStr),
     
-    buffer = require(TypesF.Buffers.buffer)
+    buffer = require(TypesF.Buffers.buffer),
+    dynamicBuffer = require(TypesF.Buffers.dynamicBuffer),
+
+    BrickColor = require(TypesF.Roblox.BrickColor),
+    Vector2 = require(TypesF.Roblox.Vector2),
+    Vector3 = require(TypesF.Roblox.Vector3),
+    Color3 = require(TypesF.Roblox.Color3),
+    lossyColor3 = require(TypesF.Roblox.lossyColor3),
+    UDim = require(TypesF.Roblox.UDim),
+    UDim2 = require(TypesF.Roblox.UDim2),
+    CFrame = require(TypesF.Roblox.CFrame),
+    lossyCFrame = require(TypesF.Roblox.lossyCFrame),
+    robloxEnum = require(TypesF.Roblox.robloxEnum),
+
+    boolean = require(TypesF.Booleans.boolean),
+    bool = require(TypesF.Booleans.boolean),
+    bitField = require(TypesF.Booleans.bitField),
+    boolField = require(TypesF.Booleans.bitField)
 }
 
 
