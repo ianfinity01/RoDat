@@ -17,7 +17,15 @@ local types = {
     short = require(TypesF.Numbers.i16),
     int = require(TypesF.Numbers.i32),
 
-    char = require(TypesF.Strings.char)
+    smartInt = require(TypesF.Numbers.smartInt),
+    smartUInt = require(TypesF.Numbers.smartUInt),
+    smartUnsignedInt = require(TypesF.Numbers.smartUInt),
+
+    char = require(TypesF.Strings.char),
+    shortStr = require(TypesF.Strings.shortStr),
+    mediumStr = require(TypesF.Strings.mediumStr),
+    
+    buffer = require(TypesF.Buffers.buffer)
 }
 
 

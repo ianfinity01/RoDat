@@ -6,20 +6,20 @@ local Type = {}
 
 export type TypeModule = typeof(Type) & Serializer.TypeObject
 
-Type.name = "shortStr"
+Type.name = "longStr"
 
 Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
-    local len = buffer.readu8(buf, offset)
-    return buffer.readstring(buf, offset + 1, len), offset + 1 + len
+    local len = buffer.readu32(buf, offset)
+    return buffer.readstring(buf, offset + 4, len), offset + 4 + len
 end, function(self, buf: buffer, offset: number, val: string)
     local len = val:len()
-    buffer.writeu8(buf, offset, len)
-    buffer.writestring(buf, offset + 1, val)
-    return offset + 1 + len
+    buffer.writeu32(buf, offset, len)
+    buffer.writestring(buf, offset + 4, val)
+    return offset + 4 + len
 end, function(self, val: string)
-    return 1 + val:len()
+    return 4 + val:len()
 end, function(self, val: string)
-    return typeof(val) == "string" and val:len() < 256
+    return typeof(val) == "string" and val:len() < 4294967296
 end)
 
 setmetatable(Type, {
