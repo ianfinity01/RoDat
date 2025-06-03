@@ -1,16 +1,17 @@
 --!strict
 local Package = script.Parent.Parent.Parent
 local Serializer = require(Package.Serializer)
+local smartUInt = require(Package.Numbers.smartUInt)
 
 local Type = {}
 
 export type TypeModule = typeof(Type) & Serializer.TypeObject
 
-Type.name = "longStr"
+Type.name = "dynamicStr"
 
 Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
-    local len = buffer.readu32(buf, offset)
-    return buffer.readstring(buf, offset + 4, len), offset + 4 + len
+    local len, offset = Serializer:Read(smartUInt, buf, offset)
+    return buffer.readstring(buf, offset + 4, len), offset + 4 + len -- TODO: FINISH
 end, function(self, buf: buffer, offset: number, val: string)
     local len = val:len()
     buffer.writeu32(buf, offset, len)

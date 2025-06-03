@@ -1,6 +1,6 @@
 --!strict
 local Package = script.Parent.Parent.Parent
-local Serializer = require(script.Parent.Parent.Parent.Serializer)
+local Serializer = require(Package.Serializer)
 
 local Type = {}
 
