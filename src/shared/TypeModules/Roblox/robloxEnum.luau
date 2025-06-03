@@ -4,12 +4,12 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type)
 export type TypeObject = Serializer.TypeObject & {enum: Enum}
 
-Type.name = "robloxEnum"
+local name = "robloxEnum"
 
-Serializer:_registerType(Type.name, function(self: TypeObject, buf: buffer, offset: number)
+Serializer:_registerType(name, function(self: TypeObject, buf: buffer, offset: number)
     return self.enum:FromValue(buffer.readu32(buf, offset)), offset + 4
 end, function(self: TypeObject, buf: buffer, offset: number, val: EnumItem)
     buffer.writeu32(buf, offset, val.Value)
@@ -23,10 +23,14 @@ end)
 setmetatable(Type, {
     __call = function(self, enum: Enum)
         assert(typeof(enum) == "Enum", "An enum type must be specified")
-        return {
-            name = Type.name,
+        return setmetatable({
+            name = name,
             enum = enum
-        }
+        }, {
+            __tostring = function(obj: TypeObject)
+                return `{name}(Enum.{obj.enum})`
+            end
+        })
     end
 })
 

@@ -7,9 +7,9 @@ local Type = {}
 export type TypeModule = typeof(Type)
 export type TypeObject = Serializer.TypeObject & {len: number}
 
-Type.name = "bitField"
+local name = "bitField"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(name, function(self, buf: buffer, offset: number)
     local len = self.len
     local ret = {}
 
@@ -63,10 +63,14 @@ setmetatable(Type, {
     __call = function(self, len: number)
         assert(typeof(len) == "number" and len % 1 == 0 and len >= 0, "Length of the bitField type must be a positive integer")
 
-        return {
-            name = self.name,
+        return setmetatable({
+            name = name,
             len = len
-        }
+        }, {
+            __tostring = function(obj: TypeObject)
+                return `{name}({obj.len})`
+            end
+        })
     end
 })
 

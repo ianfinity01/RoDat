@@ -9,9 +9,9 @@ export type TypeModule = typeof(Type) & Serializer.TypeObject
 Type.name = "boolean"
 
 Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
-    return buffer.readi8(buf, offset) == 1, offset + 1
+    return buffer.readu8(buf, offset) == 1, offset + 1
 end, function(self, buf: buffer, offset: number, val: boolean)
-    buffer.writei8(buf, offset, if val then 1 else 0)
+    buffer.writeu8(buf, offset, if val then 1 else 0)
     return offset + 1
 end, function(self, val: boolean)
     return 1
@@ -22,6 +22,9 @@ end)
 setmetatable(Type, {
     __call = function(self)
         return self
+    end,
+    __tostring = function(self)
+        return self.name
     end
 })
 

@@ -45,6 +45,9 @@ end)
 setmetatable(Type, {
     __call = function(self)
         return self
+    end,
+    __tostring = function(self)
+        return self.name
     end
 })
 
