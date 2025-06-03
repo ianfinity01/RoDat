@@ -4,11 +4,11 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<UDim>
 
-Type.name = "UDim"
+Type._name = "UDim"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     return UDim.new(buffer.readf32(buf, offset), buffer.readi32(buf, offset+4)), offset + 8
 end, function(self, buf: buffer, offset: number, val: UDim)
     buffer.writef32(buf, offset, val.Scale)
@@ -25,8 +25,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type

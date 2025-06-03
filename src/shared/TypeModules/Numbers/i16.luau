@@ -4,11 +4,11 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<number>
 
-Type.name = "i16"
+Type._name = "i16"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     return buffer.readi16(buf, offset), offset + 2
 end, function(self, buf: buffer, offset: number, val: number)
     buffer.writei16(buf, offset, val)
@@ -24,8 +24,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type

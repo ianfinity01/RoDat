@@ -5,7 +5,7 @@ local Serializer = require(Package.Serializer)
 local Type = {}
 
 export type TypeModule = typeof(Type)
-export type TypeObject = Serializer.TypeObject & {len: number}
+export type TypeObject = Serializer.TypeObject<{boolean}> & {len: number}
 
 local name = "bitField"
 
@@ -64,14 +64,14 @@ setmetatable(Type, {
         assert(typeof(len) == "number" and len % 1 == 0 and len >= 0, "Length of the bitField type must be a positive integer")
 
         return setmetatable({
-            name = name,
+            _name = name,
             len = len
         }, {
             __tostring = function(obj: TypeObject)
-                return `{name}({obj.len})`
+                return `{obj._name}({obj.len})`
             end
         })
     end
 })
 
-return Type :: TypeModule
+return Type

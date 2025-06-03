@@ -4,11 +4,11 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<CFrame>
 
-Type.name = "lossyCFrame"
+Type._name = "lossyCFrame"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     return CFrame.new(
         buffer.readf32(buf, offset),
         buffer.readf32(buf, offset+4),
@@ -38,8 +38,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type

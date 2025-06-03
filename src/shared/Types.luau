@@ -24,6 +24,10 @@ local types = {
     char = require(TypesF.Strings.char),
     shortStr = require(TypesF.Strings.shortStr),
     mediumStr = require(TypesF.Strings.mediumStr),
+    longStr = require(TypesF.Strings.longStr),
+    dynamicStr = require(TypesF.Strings.dynamicStr),
+    fixedStr = require(TypesF.Strings.fixedStr),
+    string = require(TypesF.Strings.dynamicStr),
     
     buffer = require(TypesF.Buffers.buffer),
     dynamicBuffer = require(TypesF.Buffers.dynamicBuffer),
@@ -42,7 +46,9 @@ local types = {
     boolean = require(TypesF.Booleans.boolean),
     bool = require(TypesF.Booleans.boolean),
     bitField = require(TypesF.Booleans.bitField),
-    boolField = require(TypesF.Booleans.bitField)
+    boolField = require(TypesF.Booleans.bitField),
+    
+    optional = require(TypesF.optional)
 }
 
 

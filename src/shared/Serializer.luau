@@ -9,11 +9,11 @@ export type Type<T> = {
     Length: Length<T>,
     Validate: Validate<T>
 }
-export type TypeObject = typeof(setmetatable({}::{name:string,[any]:any}, {}::any))
-type Read<T> = (TypeObject, buffer, number) -> (T, number) -- typeObj, buffer, offset -> read value, new offset
-type Write<T> = (TypeObject, buffer, number, T) -> (number) -- typeObj, buffer, offset, value -> new offset
-type Length<T> = (TypeObject, T) -> (number) -- typeObj, value -> length of value when serialized
-type Validate<T> = (TypeObject, T) -> (boolean) -- typeObj, value -> whether the value is valid for the type
+export type TypeObject<T> = typeof(setmetatable({}::{_name:string,[any]:any}, {}::any))
+type Read<T> = (TypeObject<T>, buffer, number) -> (T, number) -- typeObj, buffer, offset -> read value, new offset
+type Write<T> = (TypeObject<T>, buffer, number, T) -> (number) -- typeObj, buffer, offset, value -> new offset
+type Length<T> = (TypeObject<T>, T) -> (number) -- typeObj, value -> length of value when serialized
+type Validate<T> = (TypeObject<T>, T) -> (boolean) -- typeObj, value -> whether the value is valid for the type
 
 --[[
 Registers a new type with a specific name.
@@ -33,9 +33,9 @@ Reads a serialized type from a buffer with the given read offset and type
 Returns the read value and a new read offset
 Errors if the type name is invalid or reading fails
 ]]
-function Serializer.Read<T>(self: Serializer, Type: TypeObject, buf: buffer, offset: number?): (T, number)
-    local t = self.types[Type.name] :: Type<T>
-    assert(t, `Invalid type for read '{Type.name}'.`)
+function Serializer.Read<T>(self: Serializer, Type: TypeObject<T>, buf: buffer, offset: number?): (T, number)
+    local t = self.types[Type._name] :: Type<T>
+    assert(t, `Invalid type for read '{Type._name}'.`)
     return t.Read(Type, buf, offset or 0)
 end
 
@@ -44,9 +44,9 @@ Writes a serialized type to a buffer with the given value, read offset, and type
 Returns a new read offset
 Errors if the type name is invalid or writing fails
 ]]
-function Serializer.Write<T>(self: Serializer, Type: TypeObject, val: T, buf: buffer, offset: number?): (number)
-    local t = self.types[Type.name] :: Type<T>
-    assert(t, `Invalid type for write '{Type.name}'.`)
+function Serializer.Write<T>(self: Serializer, Type: TypeObject<T>, val: T, buf: buffer, offset: number?): (number)
+    local t = self.types[Type._name] :: Type<T>
+    assert(t, `Invalid type for write '{Type._name}'.`)
     return t.Write(Type, buf, offset or 0, val)
 end
 
@@ -54,9 +54,9 @@ end
 Determines the length of a value of a specific type when serialzed
 Returns the length in bytes
 ]]
-function Serializer.Length<T>(self: Serializer, Type: TypeObject, val: T): (number)
-    local t = self.types[Type.name] :: Type<T>
-    assert(t, `Invalid type for length '{Type.name}'.`)
+function Serializer.Length<T>(self: Serializer, Type: TypeObject<T>, val: T): (number)
+    local t = self.types[Type._name] :: Type<T>
+    assert(t, `Invalid type for length '{Type._name}'.`)
     return t.Length(Type, val)
 end
 
@@ -64,9 +64,9 @@ end
 Determines whether the passed value can be serialized into the specified type
 Returns a boolean of whether or not it is valid
 ]]
-function Serializer.Validate<T>(self: Serializer, Type: TypeObject, val: T): (boolean)
-    local t = self.types[Type.name] :: Type<T>
-    assert(t, `Invalid type for validate '{Type.name}'.`)
+function Serializer.Validate<T>(self: Serializer, Type: TypeObject<T>, val: T): (boolean)
+    local t = self.types[Type._name] :: Type<T>
+    assert(t, `Invalid type for validate '{Type._name}'.`)
     return t.Validate(Type, val)
 end
 

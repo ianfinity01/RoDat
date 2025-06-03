@@ -5,11 +5,11 @@ local smartUInt = require(Package.TypeModules.Numbers.smartUInt)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<string>
 
-Type.name = "dynamicStr"
+Type._name = "dynamicStr"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     local len, offset = Serializer:Read(smartUInt, buf, offset)
     return buffer.readstring(buf, offset, len), offset + len
 end, function(self, buf: buffer, offset: number, val: string)
@@ -28,8 +28,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type

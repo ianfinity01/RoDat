@@ -5,7 +5,7 @@ local Serializer = require(Package.Serializer)
 local Type = {}
 
 export type TypeModule = typeof(Type)
-export type TypeObject = Serializer.TypeObject & {enum: Enum}
+export type TypeObject = Serializer.TypeObject<EnumItem> & {enum: Enum}
 
 local name = "robloxEnum"
 
@@ -24,14 +24,14 @@ setmetatable(Type, {
     __call = function(self, enum: Enum)
         assert(typeof(enum) == "Enum", "An enum type must be specified")
         return setmetatable({
-            name = name,
+            _name = name,
             enum = enum
         }, {
             __tostring = function(obj: TypeObject)
-                return `{name}(Enum.{obj.enum})`
+                return `{obj._name}(Enum.{obj.enum})`
             end
         })
     end
 })
 
-return Type :: TypeModule
+return Type

@@ -1,0 +1,27 @@
+{
+    "languageMode": "strict",
+    "lint": {"*": true, "LocalUnused": false},
+    "lintErrors": true,
+    "globals": [
+        "delay",
+        "DebuggerManager",
+        "elapsedTime",
+        "PluginManager",
+        "printidentity",
+        "settings",
+        "spawn",
+        "stats",
+        "tick",
+        "time",
+        "UserSettings",
+        "version",
+        "wait",
+        "warn",
+        "Enum",
+        "game",
+        "plugin",
+        "shared",
+        "script",
+        "workspace"
+    ]
+}

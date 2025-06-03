@@ -5,11 +5,11 @@ local udim = require(Package.TypeModules.Roblox.UDim)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<UDim2>
 
-Type.name = "UDim2"
+Type._name = "UDim2"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     local x, offset = Serializer:Read(udim, buf, offset)
     local y, offset = Serializer:Read(udim, buf, offset)
     return UDim2.new(x, y), offset
@@ -28,8 +28,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type

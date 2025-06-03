@@ -4,11 +4,11 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<string>
 
-Type.name = "shortStr"
+Type._name = "shortStr"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     local len = buffer.readu8(buf, offset)
     return buffer.readstring(buf, offset + 1, len), offset + 1 + len
 end, function(self, buf: buffer, offset: number, val: string)
@@ -27,8 +27,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type

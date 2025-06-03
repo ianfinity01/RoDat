@@ -4,11 +4,11 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject
+export type TypeModule = typeof(Type) & Serializer.TypeObject<Color3>
 
-Type.name = "lossyColor3"
+Type._name = "lossyColor3"
 
-Serializer:_registerType(Type.name, function(self, buf: buffer, offset: number)
+Serializer:_registerType(Type._name, function(self, buf: buffer, offset: number)
     return Color3.fromRGB(buffer.readi8(buf, offset), buffer.readi8(buf, offset+1), buffer.readi8(buf, offset+2)), offset + 3
 end, function(self, buf: buffer, offset: number, val: Color3)
     buffer.writei8(buf, offset, math.round(val.R*255))
@@ -26,8 +26,8 @@ setmetatable(Type, {
         return self
     end,
     __tostring = function(self)
-        return self.name
+        return self._name
     end
 })
 
-return Type :: TypeModule
+return Type
