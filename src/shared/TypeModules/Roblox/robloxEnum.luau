@@ -2,10 +2,7 @@
 local Package = script.Parent.Parent.Parent
 local Serializer = require(Package.Serializer)
 
-local Type = {}
-
-export type TypeModule = typeof(Type)
-export type TypeObject = Serializer.TypeObject<EnumItem> & {enum: Enum}
+export type TypeObject = Serializer.TypeObject<EnumItem>
 
 local name = "robloxEnum"
 
@@ -20,18 +17,15 @@ end, function(self: TypeObject, val: EnumItem)
     return typeof(val) == "EnumItem" and val.EnumType == self.enum
 end)
 
-setmetatable(Type, {
-    __call = function(self, enum: Enum)
-        assert(typeof(enum) == "Enum", "An enum type must be specified")
-        return setmetatable({
-            _name = name,
-            enum = enum
-        }, {
-            __tostring = function(obj: TypeObject)
-                return `{obj._name}(Enum.{obj.enum})`
-            end
-        })
-    end
-})
 
-return Type
+return function(enum: Enum)
+    assert(typeof(enum) == "Enum", "An enum type must be specified")
+    return setmetatable({
+        _name = name,
+        enum = enum
+    }, {
+        __tostring = function(obj: TypeObject)
+            return `{obj._name}(Enum.{obj.enum})`
+        end
+    }) :: TypeObject
+end

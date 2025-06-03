@@ -4,7 +4,7 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject<number>
+export type TypeObject = Serializer.TypeObject<number>
 
 Type._name = "smartUInt"
 
@@ -43,12 +43,11 @@ end, function(self, val: number)
 end)
 
 setmetatable(Type, {
-    __call = function(self)
-        return self
-    end,
     __tostring = function(self)
         return self._name
     end
 })
 
-return Type
+return function ()
+    return Type :: TypeObject
+end

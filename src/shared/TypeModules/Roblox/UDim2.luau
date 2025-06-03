@@ -5,7 +5,7 @@ local udim = require(Package.TypeModules.Roblox.UDim)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject<UDim2>
+export type TypeObject = Serializer.TypeObject<UDim2>
 
 Type._name = "UDim2"
 
@@ -24,12 +24,11 @@ end, function(self, val: UDim2)
 end)
 
 setmetatable(Type, {
-    __call = function(self)
-        return self
-    end,
     __tostring = function(self)
         return self._name
     end
 })
 
-return Type
+return function ()
+    return Type :: TypeObject
+end

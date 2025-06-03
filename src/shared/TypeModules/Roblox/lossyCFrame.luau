@@ -4,7 +4,7 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject<CFrame>
+export type TypeObject = Serializer.TypeObject<CFrame>
 
 Type._name = "lossyCFrame"
 
@@ -34,12 +34,11 @@ end, function(self, val: CFrame)
 end)
 
 setmetatable(Type, {
-    __call = function(self)
-        return self
-    end,
     __tostring = function(self)
         return self._name
     end
 })
 
-return Type
+return function ()
+    return Type :: TypeObject
+end

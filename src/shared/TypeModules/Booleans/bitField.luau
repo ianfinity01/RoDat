@@ -2,10 +2,7 @@
 local Package = script.Parent.Parent.Parent
 local Serializer = require(Package.Serializer)
 
-local Type = {}
-
-export type TypeModule = typeof(Type)
-export type TypeObject = Serializer.TypeObject<{boolean}> & {len: number}
+export type TypeObject = Serializer.TypeObject<{boolean}>
 
 local name = "bitField"
 
@@ -59,19 +56,15 @@ end, function(self: TypeObject, val: {boolean})
     return true
 end)
 
-setmetatable(Type, {
-    __call = function(self, len: number)
-        assert(typeof(len) == "number" and len % 1 == 0 and len >= 0, "Length of the bitField type must be a positive integer")
+return function(len: number)
+    assert(typeof(len) == "number" and len % 1 == 0 and len >= 0, "Length of the bitField type must be a positive integer")
 
-        return setmetatable({
-            _name = name,
-            len = len
-        }, {
-            __tostring = function(obj: TypeObject)
-                return `{obj._name}({obj.len})`
-            end
-        })
-    end
-})
-
-return Type
+    return setmetatable({
+        _name = name,
+        len = len
+    }, {
+        __tostring = function(obj: TypeObject)
+            return `{obj._name}({obj.len})`
+        end
+    }) :: TypeObject
+end

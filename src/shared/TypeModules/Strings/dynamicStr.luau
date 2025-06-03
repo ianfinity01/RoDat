@@ -5,7 +5,7 @@ local smartUInt = require(Package.TypeModules.Numbers.smartUInt)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject<string>
+export type TypeObject = Serializer.TypeObject<string>
 
 Type._name = "dynamicStr"
 
@@ -32,4 +32,6 @@ setmetatable(Type, {
     end
 })
 
-return Type
+return function ()
+    return Type :: TypeObject
+end

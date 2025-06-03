@@ -9,7 +9,7 @@ export type Type<T> = {
     Length: Length<T>,
     Validate: Validate<T>
 }
-export type TypeObject<T> = typeof(setmetatable({}::{_name:string,[any]:any}, {}::any))
+export type TypeObject<T> = typeof(setmetatable({}::{_name:string,a:T,[any]:any}, {}::any))
 type Read<T> = (TypeObject<T>, buffer, number) -> (T, number) -- typeObj, buffer, offset -> read value, new offset
 type Write<T> = (TypeObject<T>, buffer, number, T) -> (number) -- typeObj, buffer, offset, value -> new offset
 type Length<T> = (TypeObject<T>, T) -> (number) -- typeObj, value -> length of value when serialized

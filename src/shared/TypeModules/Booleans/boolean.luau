@@ -4,7 +4,7 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject<boolean>
+export type TypeObject = Serializer.TypeObject<boolean>
 
 Type._name = "boolean"
 
@@ -20,12 +20,11 @@ end, function(self, val: boolean)
 end)
 
 setmetatable(Type, {
-    __call = function(self)
-        return self
-    end,
     __tostring = function(self)
         return self._name
     end
 })
 
-return Type
+return function()
+    return Type :: TypeObject
+end

@@ -4,7 +4,7 @@ local Serializer = require(Package.Serializer)
 
 local Type = {}
 
-export type TypeModule = typeof(Type) & Serializer.TypeObject<Vector3>
+export type TypeObject = Serializer.TypeObject<Vector3>
 
 Type._name = "Vector3"
 
@@ -22,12 +22,11 @@ end, function(self, val: Vector3)
 end)
 
 setmetatable(Type, {
-    __call = function(self)
-        return self
-    end,
     __tostring = function(self)
         return self._name
     end
 })
 
-return Type
+return function ()
+    return Type :: TypeObject
+end
