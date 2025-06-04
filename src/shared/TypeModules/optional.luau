@@ -28,7 +28,7 @@ end, function<T>(self: TypeObject<T>, val: T?): boolean
 end)
 
 return function<T>(otherType: Serializer.TypeObject<T>)
-    assert(typeof(otherType) == "table" and otherType.name, "An type must be specified for the optional")
+    assert(typeof(otherType) == "table" and otherType._name, "An type must be specified for the optional")
     return setmetatable({
         _name = name,
         type = otherType
